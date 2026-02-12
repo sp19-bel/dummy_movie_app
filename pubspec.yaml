@@ -38,6 +38,13 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   reactive_forms: ^18.2.2
+  dartz: ^0.10.1
+  connectivity_plus: ^6.1.1
+  mime: ^2.0.0
+  flutter_dotenv: ^5.2.1
+  youtube_player_flutter: ^9.1.1
+  cached_network_image: ^3.4.1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +67,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:
