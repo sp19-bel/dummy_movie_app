@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:test_app/src/core/config/theme/app_theme.dart';
 import 'package:test_app/src/core/routes/routes.dart';
 
 class App extends StatelessWidget {
@@ -10,12 +11,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Test App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorSchemeSeed: Colors.deepPurple,
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: AppRouter.movieList,
+      initialRoute: AppRouter.home,
     );
   }
 }

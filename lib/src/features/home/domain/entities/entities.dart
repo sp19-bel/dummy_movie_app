@@ -1,0 +1,1 @@
+export 'upcoming_movie_entity.dart';

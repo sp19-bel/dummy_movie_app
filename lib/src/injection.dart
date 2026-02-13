@@ -17,6 +17,12 @@ import 'package:test_app/src/features/movies/presentation/cubit/movie_list_cubit
 import 'package:test_app/src/features/movies/presentation/cubit/movie_detail_cubit.dart';
 import 'package:test_app/src/features/movies/presentation/cubit/movie_search_cubit.dart';
 
+import 'package:test_app/src/features/home/data/data_sources/home_remote_data_source.dart';
+import 'package:test_app/src/features/home/data/repositories/home_repository.dart';
+import 'package:test_app/src/features/home/domain/protocols/home_repository_protocol.dart';
+import 'package:test_app/src/features/home/domain/use_cases/get_upcoming_movies_usecase.dart';
+import 'package:test_app/src/features/home/presentation/cubit/home_cubit.dart';
+
 final di = GetIt.instance;
 
 Future<void> configureDependencies() async {
@@ -67,5 +73,17 @@ Future<void> configureDependencies() async {
   );
   di.registerFactory<MovieSearchCubit>(
     () => MovieSearchCubit(searchMovies: di()),
+  );
+
+  // Home Feature
+  di.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSource());
+  di.registerLazySingleton<HomeRepositoryProtocol>(
+    () => HomeRepository(remoteDataSource: di()),
+  );
+  di.registerFactory<GetUpcomingMoviesUseCase>(
+    () => GetUpcomingMoviesUseCase(repository: di()),
+  );
+  di.registerFactory<HomeCubit>(
+    () => HomeCubit(getUpcomingMoviesUseCase: di()),
   );
 }
