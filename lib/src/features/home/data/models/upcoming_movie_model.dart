@@ -10,12 +10,35 @@ class UpcomingMovieModel extends UpcomingMovieEntity {
   });
 
   factory UpcomingMovieModel.fromJson(Map<String, dynamic> json) {
-    return UpcomingMovieModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      posterPath: json['poster_path'] ?? '',
-      releaseDate: json['release_date'] ?? '',
-      voteAverage: (json['vote_average'] ?? 0).toDouble(),
-    );
+    try {
+      return UpcomingMovieModel(
+        id: _parseInt(json['id']),
+        title: _parseString(json['title']),
+        posterPath: _parseString(json['poster_path']),
+        releaseDate: _parseString(json['release_date']),
+        voteAverage: _parseDouble(json['vote_average']),
+      );
+    } catch (e) {
+      throw FormatException('Error parsing UpcomingMovieModel: $e');
+    }
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value.toString()) ?? 0;
+  }
+
+  static String _parseString(dynamic value) {
+    if (value == null) return '';
+    return value.toString();
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is double) return value;
+    if (value is num) return value.toDouble();
+    return double.tryParse(value.toString()) ?? 0.0;
   }
 }

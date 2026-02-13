@@ -17,7 +17,7 @@ class SearchMoviesResponse {
     return SearchMoviesResponse(
       page: json['page'] ?? 0,
       results: (json['results'] as List<dynamic>?)
-              ?.map((m) => MovieModel.fromJson(m))
+              ?.map((m) => MovieModel.fromJson(m as Map<String, dynamic>))
               .toList() ??
           [],
       totalPages: json['total_pages'] ?? 0,

@@ -23,145 +23,161 @@ class _SeatMappingScreenState extends State<SeatMappingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Select Seats')),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          Container(
-            width: 200,
-            height: 30,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[400]!, width: 3),
-              ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'SCREEN',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(rows, (row) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          child: Text(
-                            String.fromCharCode(65 + row),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        ...List.generate(seatsPerRow, (col) {
-                          final label = _seatLabel(row, col);
-                          final isBooked = bookedSeats.contains(label);
-                          final isSelected = selectedSeats.contains(label);
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          
+          double screenWidth = constraints.maxWidth;
+          double seatSize = screenWidth / 12; 
+          int seatsInRow = screenWidth > 600 ? 10 : 6;
 
-                          return GestureDetector(
-                            onTap: isBooked
-                                ? null
-                                : () {
-                                    setState(() {
-                                      if (isSelected) {
-                                        selectedSeats.remove(label);
-                                      } else {
-                                        selectedSeats.add(label);
-                                      }
-                                    });
-                                  },
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                left: 4,
-                                right: col == 4 ? 16 : 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: isBooked
-                                    ? Colors.grey[400]
-                                    : isSelected
-                                        ? Colors.green
-                                        : Colors.blue[100],
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8),
-                                ),
-                                border: Border.all(
-                                  color: isBooked
-                                      ? Colors.grey
-                                      : isSelected
-                                          ? Colors.green[700]!
-                                          : Colors.blue[300]!,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  );
-                }),
+          return Column(
+            children: [
+              const SizedBox(height: 16),
+              Container(
+                width: 200,
+                height: 30,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey[400]!, width: 3),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'SCREEN',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _legend(Colors.blue[100]!, 'Available'),
-                    const SizedBox(width: 16),
-                    _legend(Colors.green, 'Selected'),
-                    const SizedBox(width: 16),
-                    _legend(Colors.grey[400]!, 'Booked'),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  selectedSeats.isEmpty
-                      ? 'No seats selected'
-                      : 'Selected: ${(selectedSeats.toList()..sort()).join(', ')}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: selectedSeats.isEmpty
-                        ? null
-                        : () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Booked: ${(selectedSeats.toList()..sort()).join(', ')}',
+              const SizedBox(height: 24),
+              Expanded(
+                child: InteractiveViewer(
+                  minScale: 0.5,
+                  maxScale: 4.0,
+                  constrained: false,
+                  boundaryMargin: const EdgeInsets.all(20),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: List.generate(rows, (row) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 24,
+                                child: Text(
+                                  String.fromCharCode(65 + row),
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            );
-                          },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    child: Text(
-                      selectedSeats.isEmpty
-                          ? 'Select Seats'
-                          : 'Book ${selectedSeats.length} Seat(s)',
+                              ...List.generate(seatsInRow, (col) {
+                                final label = _seatLabel(row, col);
+                                final isBooked = bookedSeats.contains(label);
+                                final isSelected = selectedSeats.contains(label);
+
+                                return GestureDetector(
+                                  onTap: isBooked
+                                      ? null
+                                      : () {
+                                          setState(() {
+                                            if (isSelected) {
+                                              selectedSeats.remove(label);
+                                            } else {
+                                              selectedSeats.add(label);
+                                            }
+                                          });
+                                        },
+                                  child: Container(
+                                    width: seatSize,
+                                    height: seatSize,
+                                    margin: EdgeInsets.only(
+                                      left: 4,
+                                      right: col == 4 ? 16 : 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isBooked
+                                          ? Colors.grey[400]
+                                          : isSelected
+                                              ? Colors.green
+                                              : Colors.blue[100],
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8),
+                                      ),
+                                      border: Border.all(
+                                        color: isBooked
+                                            ? Colors.grey
+                                            : isSelected
+                                                ? Colors.green[700]!
+                                                : Colors.blue[300]!,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _legend(Colors.blue[100]!, 'Available'),
+                        const SizedBox(width: 16),
+                        _legend(Colors.green, 'Selected'),
+                        const SizedBox(width: 16),
+                        _legend(Colors.grey[400]!, 'Booked'),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      selectedSeats.isEmpty
+                          ? 'No seats selected'
+                          : 'Selected: ${(selectedSeats.toList()..sort()).join(', ')}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: selectedSeats.isEmpty
+                            ? null
+                            : () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Booked: ${(selectedSeats.toList()..sort()).join(', ')}',
+                                    ),
+                                  ),
+                                );
+                              },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: Text(
+                          selectedSeats.isEmpty
+                              ? 'Select Seats'
+                              : 'Book ${selectedSeats.length} Seat(s)',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

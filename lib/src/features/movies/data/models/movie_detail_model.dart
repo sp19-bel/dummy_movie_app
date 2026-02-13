@@ -28,7 +28,7 @@ class MovieDetailModel extends MovieDetailEntity {
       status: json['status'] ?? '',
       tagline: json['tagline'] ?? '',
       genres: (json['genres'] as List<dynamic>?)
-              ?.map((g) => GenreModel.fromJson(g))
+              ?.map((g) => GenreModel.fromJson(g as Map<String, dynamic>))
               .toList() ??
           [],
     );

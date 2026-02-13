@@ -6,11 +6,29 @@ class UpcomingMoviesResponse {
   UpcomingMoviesResponse({required this.results});
 
   factory UpcomingMoviesResponse.fromJson(Map<String, dynamic> json) {
-    return UpcomingMoviesResponse(
-      results: (json['results'] as List<dynamic>?)
-              ?.map((e) => UpcomingMovieModel.fromJson(e))
-              .toList() ??
-          [],
-    );
+    try {
+      final resultsList = json['results'];
+      if (resultsList == null) {
+        return UpcomingMoviesResponse(results: []);
+      }
+      if (resultsList is! List) {
+        throw FormatException(
+            'Expected List for results but got ${resultsList.runtimeType}');
+      }
+      return UpcomingMoviesResponse(
+        results: resultsList
+            .map((e) {
+              if (e is! Map) {
+                throw FormatException(
+                    'Expected Map for movie item but got ${e.runtimeType}');
+              }
+              return UpcomingMovieModel.fromJson(
+                  Map<String, dynamic>.from(e as Map));
+            })
+            .toList(),
+      );
+    } catch (e) {
+      throw FormatException('Error parsing UpcomingMoviesResponse: $e');
+    }
   }
 }

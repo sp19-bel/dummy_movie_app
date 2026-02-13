@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:test_app/src/app.dart';
@@ -7,7 +8,12 @@ import 'package:test_app/src/shared/services/app_services.dart';
 export 'src/src.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Services.shared.init(Flavor.development);
-  runApp(const App());
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Services.shared.init(Flavor.development);
+    runApp(const App());
+  }, (error, stack) {
+    debugPrint('🔥 UNCAUGHT ERROR: $error');
+    debugPrint('🔥 STACK TRACE: $stack');
+  });
 }

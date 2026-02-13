@@ -14,14 +14,41 @@ class MovieModel extends MovieEntity {
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      overview: json['overview'] ?? '',
-      posterPath: json['poster_path'] ?? '',
-      backdropPath: json['backdrop_path'] ?? '',
-      voteAverage: (json['vote_average'] ?? 0).toDouble(),
-      releaseDate: json['release_date'] ?? '',
-      genreIds: List<int>.from(json['genre_ids'] ?? []),
+      id: _parseInt(json['id']),
+      title: _parseString(json['title']),
+      overview: _parseString(json['overview']),
+      posterPath: _parseString(json['poster_path']),
+      backdropPath: _parseString(json['backdrop_path']),
+      voteAverage: _parseDouble(json['vote_average']),
+      releaseDate: _parseString(json['release_date']),
+      genreIds: _parseIntList(json['genre_ids']),
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value.toString()) ?? 0;
+  }
+
+  static String _parseString(dynamic value) {
+    if (value == null) return '';
+    return value.toString();
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is double) return value;
+    if (value is num) return value.toDouble();
+    return double.tryParse(value.toString()) ?? 0.0;
+  }
+
+  static List<int> _parseIntList(dynamic value) {
+    if (value == null) return [];
+    if (value is! List) return [];
+    return value
+        .map((e) => e is int ? e : int.tryParse(e.toString()) ?? 0)
+        .toList();
   }
 }

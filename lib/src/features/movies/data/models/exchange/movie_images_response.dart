@@ -15,11 +15,11 @@ class MovieImagesResponse {
     return MovieImagesResponse(
       id: json['id'] ?? 0,
       backdrops: (json['backdrops'] as List<dynamic>?)
-              ?.map((i) => ImageModel.fromJson(i))
+              ?.map((i) => ImageModel.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
       posters: (json['posters'] as List<dynamic>?)
-              ?.map((i) => ImageModel.fromJson(i))
+              ?.map((i) => ImageModel.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
     );

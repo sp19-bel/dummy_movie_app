@@ -10,7 +10,7 @@ class MovieVideosResponse {
     return MovieVideosResponse(
       id: json['id'] ?? 0,
       results: (json['results'] as List<dynamic>?)
-              ?.map((v) => VideoModel.fromJson(v))
+              ?.map((v) => VideoModel.fromJson(v as Map<String, dynamic>))
               .toList() ??
           [],
     );

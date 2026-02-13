@@ -14,14 +14,22 @@ class UpcomingMoviesResponse {
   });
 
   factory UpcomingMoviesResponse.fromJson(Map<String, dynamic> json) {
+    final resultsList = json['results'];
+    final List<MovieModel> movies = [];
+    
+    if (resultsList is List) {
+      for (var item in resultsList) {
+        if (item is Map) {
+          movies.add(MovieModel.fromJson(Map<String, dynamic>.from(item)));
+        }
+      }
+    }
+    
     return UpcomingMoviesResponse(
-      page: json['page'] ?? 0,
-      results: (json['results'] as List<dynamic>?)
-              ?.map((m) => MovieModel.fromJson(m))
-              .toList() ??
-          [],
-      totalPages: json['total_pages'] ?? 0,
-      totalResults: json['total_results'] ?? 0,
+      page: json['page'] is int ? json['page'] as int : 0,
+      results: movies,
+      totalPages: json['total_pages'] is int ? json['total_pages'] as int : 0,
+      totalResults: json['total_results'] is int ? json['total_results'] as int : 0,
     );
   }
 }
