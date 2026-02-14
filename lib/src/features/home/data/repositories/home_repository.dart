@@ -18,4 +18,14 @@ class HomeRepository implements HomeRepositoryProtocol {
       (response) => Right(response.results),
     );
   }
+
+  @override
+  Future<Either<GeneralException, List<UpcomingMovieEntity>>>
+      getMoviesByGenre(String genre) async {
+    final result = await remoteDataSource.getMoviesByGenre(genre);
+    return result.fold(
+      (failure) => Left(failure),
+      (response) => Right(response.results),
+    );
+  }
 }

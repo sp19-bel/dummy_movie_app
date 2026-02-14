@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(27),
             topRight: Radius.circular(27)),
             child: BottomNavigationBar(
-              
+
               currentIndex: state.currentIndex,
               onTap: (index) => context.read<HomeCubit>().changeTab(index),
               type: BottomNavigationBarType.fixed,

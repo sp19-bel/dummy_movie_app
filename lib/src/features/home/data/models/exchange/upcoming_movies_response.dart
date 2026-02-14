@@ -23,7 +23,7 @@ class UpcomingMoviesResponse {
                     'Expected Map for movie item but got ${e.runtimeType}');
               }
               return UpcomingMovieModel.fromJson(
-                  Map<String, dynamic>.from(e as Map));
+                  Map<String, dynamic>.from(e));
             })
             .toList(),
       );

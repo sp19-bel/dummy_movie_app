@@ -5,8 +5,8 @@ class MovieModel extends MovieEntity {
     required super.id,
     required super.title,
     required super.overview,
-    required super.posterPath,
-    required super.backdropPath,
+    super.posterPath,
+    super.backdropPath,
     required super.voteAverage,
     required super.releaseDate,
     required super.genreIds,
@@ -17,8 +17,8 @@ class MovieModel extends MovieEntity {
       id: _parseInt(json['id']),
       title: _parseString(json['title']),
       overview: _parseString(json['overview']),
-      posterPath: _parseString(json['poster_path']),
-      backdropPath: _parseString(json['backdrop_path']),
+      posterPath: _parseNullableString(json['poster_path']),
+      backdropPath: _parseNullableString(json['backdrop_path']),
       voteAverage: _parseDouble(json['vote_average']),
       releaseDate: _parseString(json['release_date']),
       genreIds: _parseIntList(json['genre_ids']),
@@ -35,6 +35,12 @@ class MovieModel extends MovieEntity {
   static String _parseString(dynamic value) {
     if (value == null) return '';
     return value.toString();
+  }
+
+  static String? _parseNullableString(dynamic value) {
+    if (value == null) return null;
+    final str = value.toString().trim();
+    return str.isEmpty ? null : str;
   }
 
   static double _parseDouble(dynamic value) {

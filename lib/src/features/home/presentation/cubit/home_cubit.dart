@@ -31,4 +31,16 @@ class HomeCubit extends Cubit<HomeState> {
           emit(HomeLoaded(movies: movies, currentIndex: state.currentIndex)),
     );
   }
+
+  Future<void> fetchMoviesByGenre(String genre) async {
+    emit(HomeLoading(currentIndex: state.currentIndex));
+    final result = await getUpcomingMoviesUseCase.call(genre: genre);
+    result.fold(
+      (failure) => emit(HomeError(
+          message: failure.message ?? 'Something went wrong',
+          currentIndex: state.currentIndex)),
+      (movies) =>
+          emit(HomeLoaded(movies: movies, currentIndex: state.currentIndex)),
+    );
+  }
 }

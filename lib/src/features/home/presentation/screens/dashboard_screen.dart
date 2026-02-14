@@ -13,6 +13,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Watch'),
+        centerTitle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.search),

@@ -7,6 +7,7 @@ import 'package:test_app/src/features/movies/presentation/screens/movie_list_scr
 import 'package:test_app/src/features/movies/presentation/screens/movie_detail_screen.dart';
 import 'package:test_app/src/features/movies/presentation/screens/movie_search_screen.dart';
 import 'package:test_app/src/features/movies/presentation/screens/seat_mapping_screen.dart';
+import 'package:test_app/src/features/movies/presentation/screens/date_time_selection_screen.dart';
 import 'package:test_app/src/injection.dart';
 
 class AppRouter {
@@ -14,6 +15,7 @@ class AppRouter {
   static const String movieList = '/movie-list';
   static const String movieDetail = '/movie-detail';
   static const String movieSearch = '/movie-search';
+  static const String dateTimeSelection = '/date-time-selection';
   static const String seatMapping = '/seat-mapping';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -34,8 +36,22 @@ class AppRouter {
         );
       case movieSearch:
         return MaterialPageRoute(builder: (_) => const MovieSearchScreen());
+      case dateTimeSelection:
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => DateTimeSelectionScreen(
+            movieTitle: args?['movieTitle'] as String?,
+            releaseInfo: args?['releaseDate'] as String?,
+          ),
+        );
       case seatMapping:
-        return MaterialPageRoute(builder: (_) => const SeatMappingScreen());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => SeatMappingScreen(
+            movieTitle: args?['movieTitle'] as String?,
+            releaseDate: args?['releaseDate'] as String?,
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -13,7 +13,7 @@ void main() async {
     await Services.shared.init(Flavor.development);
     runApp(const App());
   }, (error, stack) {
-    debugPrint('🔥 UNCAUGHT ERROR: $error');
-    debugPrint('🔥 STACK TRACE: $stack');
+    debugPrint(' UNCAUGHT ERROR: $error');
+    debugPrint(' STACK TRACE: $stack');
   });
 }

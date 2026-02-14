@@ -3,15 +3,12 @@ import 'package:test_app/src/shared/protocols/general_exception.dart';
 import 'package:test_app/src/features/home/domain/entities/upcoming_movie_entity.dart';
 import 'package:test_app/src/features/home/domain/protocols/home_repository_protocol.dart';
 
-class GetUpcomingMoviesUseCase {
+class GetMoviesByGenreUseCase {
   final HomeRepositoryProtocol repository;
 
-  GetUpcomingMoviesUseCase({required this.repository});
+  GetMoviesByGenreUseCase({required this.repository});
 
-  Future<Either<GeneralException, List<UpcomingMovieEntity>>> call({String? genre}) async {
-    if (genre != null && genre.isNotEmpty) {
-      return await repository.getMoviesByGenre(genre);
-    }
-    return await repository.getUpcomingMovies();
+  Future<Either<GeneralException, List<UpcomingMovieEntity>>> call(String genre) async {
+    return await repository.getMoviesByGenre(genre);
   }
 }

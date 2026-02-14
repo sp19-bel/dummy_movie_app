@@ -4,4 +4,5 @@ import 'package:test_app/src/features/home/domain/entities/upcoming_movie_entity
 
 abstract class HomeRepositoryProtocol {
   Future<Either<GeneralException, List<UpcomingMovieEntity>>> getUpcomingMovies();
+  Future<Either<GeneralException, List<UpcomingMovieEntity>>> getMoviesByGenre(String genre);
 }
