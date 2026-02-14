@@ -39,7 +39,7 @@ dependencies:
   hive_flutter: ^1.1.0
   reactive_forms: ^18.2.2
   dartz: ^0.10.1
-  connectivity_plus: ^6.1.1
+  connectivity_plus: ^7.0.0
   mime: ^2.0.0
   flutter_dotenv: ^5.2.1
   youtube_player_flutter: ^9.1.1
